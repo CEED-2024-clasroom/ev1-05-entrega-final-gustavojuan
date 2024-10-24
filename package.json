@@ -14,5 +14,9 @@
     "eslint": "^9.13.0",
     "eslint-plugin-html": "^8.1.2",
     "vite": "^5.4.9"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0"
   }
 }
