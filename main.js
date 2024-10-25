@@ -1,35 +1,44 @@
+//importacion de assets
 import "./style.css";
-import { Game } from "./src/lib/Game.js";
 import "./src/lib/fontawesome.js";
+
+//importacion de utiles y funcionalidads
+import { Game } from "./src/lib/Game.js";
+
 import {
   appendCasillas,
+  calculosGridSize,
   createLetterDiv,
   resetElement,
 } from "./src/lib/utils.js";
 
-function generateCasillas(game) {
+const  generateCasillas = (game) => {
+
+  //Limpiamos Grid
   resetElement("#grid");
 
-  //Iterar para cada una de las posiciones
+  //obtenemos datos que vamos utilizar
+  const { despX, despY } = calculosGridSize(game.wordPositions);
 
+
+  //poblamos
   game.wordPositions.forEach((value) => {
     const { direction, origin, length } = value;
     const [x, y] = origin;
 
     for (let i = 0; i < length; i++) {
-      let letterDiv = createLetterDiv(x, y, i, direction);
+      let letterDiv = createLetterDiv(x + despX, y + despY, i, direction);
       appendCasillas("#grid", letterDiv);
     }
   });
 }
 
-// Inicializar el juego
-function initializeGame() {
-  const game = new Game(4);
+// Iniciar el juego
+const initializeGame = () => {
+  const game = new Game(3);
   generateCasillas(game);
 }
 
-// Espera a que el DOM esté listo antes de inicializar el juego
 document.addEventListener("DOMContentLoaded", () => {
-  initializeGame(); // Cambia el ID según sea necesario
+  initializeGame();
 });
