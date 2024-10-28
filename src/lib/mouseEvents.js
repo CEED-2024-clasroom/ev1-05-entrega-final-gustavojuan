@@ -1,73 +1,106 @@
-import { getElementCenter, lengthAndAngle } from './line_position.js'; // Asegúrate de que la ruta sea correcta
+import { getElementCenter, lengthAndAngle } from './line_position.js';
 
-let currentLine = null; // Línea actual
-let selectedLetter = null; // Letra seleccionada
+let currentLine = null;
+let selectedLetter = null;
 
 
-// Manejar el movimiento del ratón
-export const handleMouseMove = (event) => {
-  const mouseX = event.clientX;
-  const mouseY = event.clientY;
+const updateLinePosition = (start, end) => {
+ 
 
-  // Actualizar la posición final de la línea
-  if (currentLine) {
-    // Obtener el centro de la letra seleccionada
-    const center = getElementCenter(selectedLetter);
-    const origin = [center.x, center.y];
-    const end = [mouseX, mouseY];
+  
+    const origin = [start.x, start.y];
+    const destination = [end.x, end.y];
+    
+    
+    const { length, angle } = lengthAndAngle(origin, destination);
 
-    const { length, angle } = lengthAndAngle(origin, end);
+    console.log("length and angle:", length);
+    
 
-    // Asignar valores de longitud y ángulo a la línea
-    currentLine.style.width = `${length}px`;
-    currentLine.style.transform = `rotate(${angle}deg)`;
-  }
+
+
+    if (currentLine) {
+        currentLine.style.width = `${length}px`;
+        currentLine.style.lefto = `${start.x}px`;
+        currentLine.style.top = `${start.y}px`;
+        currentLine.style.transform = `rotate(${angle}deg)`;
+    }
 };
 
-// Manejar la liberación del botón del ratón
-export const handleMouseUp = () => {
-  if (selectedLetter) {
-    selectedLetter.classList.remove('selected'); // Limpiar selección
-    selectedLetter = null; // Reiniciar letra seleccionada
-  }
-
-  // Eliminar la línea actual
-  if (currentLine) {
-    currentLine.remove();
-    currentLine = null;
-  }
-
-  // Eliminar el evento de movimiento del ratón
-  document.removeEventListener('mousemove', handleMouseMove);
-  document.removeEventListener('mouseup', handleMouseUp);
+// Maneja el movimiento del ratón para actualizar la línea
+const handleMouseMove = (event) => {
+    const mouseX = event.clientX;
+    const mouseY = event.clientY;
+    const letterCenter = getElementCenter(selectedLetter);
+  
+    updateLinePosition(letterCenter, { x: mouseX, y: mouseY });
 };
 
+// Crea la línea inicial desde el centro de la letra hasta el ratón
+const createInitialLine = (event) => {
+    const letterCenter = getElementCenter(selectedLetter);
+
+
+    
+    const mouseX = event.clientX;
+    const mouseY = event.clientY;
+    currentLine = document.createElement('div');
+    currentLine.classList.add('line');
+
+
+
+    updateLinePosition(letterCenter, { x: mouseX, y: mouseY });
+
+    document.getElementById("wheel").appendChild(currentLine);
+};
+
+// Limpiar selección y eliminar la línea cuando se suelta el ratón
+const handleMouseUp = () => {
+    if (selectedLetter) {
+        selectedLetter.classList.remove('selected');
+        selectedLetter = null;
+    }
+    if (currentLine) {
+        currentLine.remove();
+        currentLine = null;
+    }
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+};
 
 // Manejar clic en una letra
 export const handleLetterClick = (event) => {
-  // Si ya hay una letra seleccionada, no hacemos nada
-  if (selectedLetter) return;
+    if (selectedLetter) return;
 
-  // Seleccionar la letra y añadir clase 'selected'
-  selectedLetter = event.currentTarget;
-  selectedLetter.classList.add('selected');
+    selectedLetter = event.currentTarget;
+    selectedLetter.classList.add('selected');
 
-  // Obtener el centro de la letra seleccionada
-  const center = getElementCenter(selectedLetter);
 
-  // Crear línea inicial
-  currentLine = document.createElement('div');
-  currentLine.classList.add('line');
-  currentLine.style.left = `${center.x}px`;
-  currentLine.style.top = `${center.y}px`;
+    
+    const mouseX = event.clientX;
+    const mouseY = event.clientY;
 
-  // Añadir la línea al contenedor
-  document.getElementById("wheel").appendChild(currentLine);
+    markPoint(mouseX,mouseY,'green')
 
-  // Mover la línea con el ratón
-  document.addEventListener('mousemove', handleMouseMove);
+    createInitialLine(event);
 
-  // Añadir evento para soltar el ratón
-  document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
 };
 
+
+function markPoint(x, y, color = 'red') {
+    // Crear un elemento div para el punto
+    const point = document.createElement('div');
+    point.classList.add('marker');
+
+    // Establecer el color del punto
+    point.style.backgroundColor = color;
+
+    // Establecer la posición del punto
+    point.style.left = `${x}px`;
+    point.style.top = `${y}px`;
+
+    // Añadir el punto al documento
+    document.body.appendChild(point);
+}

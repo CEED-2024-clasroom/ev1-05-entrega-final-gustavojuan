@@ -1,10 +1,12 @@
-// Importación de assets
+//importacion de assets
 import "./style.css";
 import "./src/lib/fontawesome.js";
 
-// Importación de utilidades y funcionalidades
+//importacion de utiles y funcionalidades
 import { Game } from "./src/lib/Game.js";
-import calculateLetterPositions from "./src/lib/letter_positions.js"; // Importar la función
+import calculateLetterPositions from "./src/lib/letter_positions.js"; 
+import { getElementCenter  } from './src/lib/line_position.js'
+
 import {
   appendCasillas,
   calculosGridSize,
@@ -12,19 +14,16 @@ import {
   resetElement,
 } from "./src/lib/utils.js";
 
-import { 
-  handleLetterClick, 
-  handleMouseMove, 
-  handleMouseOver, 
-  handleMouseUp 
-} from './src/lib/mouseEvents.js'; // Importar las funciones de eventos del ratón
+import { handleLetterClick } from "./src/lib/mouseEvents.js";
 
-// Generar casillas en el grid
 const generateCasillas = (game) => {
+  //Limpiamos Grid
   resetElement("#grid");
 
+  //obtenemos datos que vamos utilizar
   const { despX, despY } = calculosGridSize(game.wordPositions);
 
+  //poblamos
   game.wordPositions.forEach((value) => {
     const { direction, origin, length } = value;
     const [x, y] = origin;
@@ -36,12 +35,12 @@ const generateCasillas = (game) => {
   });
 };
 
-// Generar letras en la rueda
-const generarWheelLetters = (game) => {
+const  generarWheelLetters = (game) => {
   resetElement("#wheel");
 
   const letters = game.letters.split("");
   const numLetters = letters.length;
+
   const positions = calculateLetterPositions(numLetters);
 
   letters.forEach((letter, index) => {
@@ -54,21 +53,20 @@ const generarWheelLetters = (game) => {
     letterDiv.style.top = pos.top; // Asignar top
 
     appendCasillas("#wheel", letterDiv);
-    
-    // Agregar eventos a cada letra
+
+
     letterDiv.addEventListener('mousedown', handleLetterClick);
-    letterDiv.addEventListener('mouseover', handleMouseOver);
+    
   });
-};
+}
 
 // Iniciar el juego
 const initializeGame = () => {
-  const game = new Game();
+  const game = new Game(1);
   generateCasillas(game);
   generarWheelLetters(game);
 };
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeGame();
-  document.addEventListener('mouseup', handleMouseUp); // Manejar el mouseup en el documento
 });
