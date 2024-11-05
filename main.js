@@ -5,7 +5,7 @@ import "./src/lib/fontawesome.js";
 //importacion de utiles y funcionalidades
 import { Game } from "./src/lib/Game.js";
 import calculateLetterPositions from "./src/lib/letter_positions.js"; 
-import { getElementCenter  } from './src/lib/line_position.js'
+
 
 import {
   appendCasillas,
@@ -49,18 +49,21 @@ const  generarWheelLetters = (game) => {
     letterDiv.textContent = letter;
 
     const pos = positions[index];
-    letterDiv.style.left = pos.left; // Asignar left
-    letterDiv.style.top = pos.top; // Asignar top
+    letterDiv.style.left = pos.left; 
+    letterDiv.style.top = pos.top;
 
     appendCasillas("#wheel", letterDiv);
-
 
     letterDiv.addEventListener('mousedown', handleLetterClick);
     
   });
 }
 
-// Iniciar el juego
+
+
+
+
+/* TODO: parametrizar new Game*/
 const initializeGame = () => {
   const game = new Game(1);
   generateCasillas(game);

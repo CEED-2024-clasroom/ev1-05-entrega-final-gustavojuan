@@ -4,8 +4,20 @@ let currentLine = null;
 let selectedLetter = null;
 
 
+
+const  markPoint = (x, y, color = 'red')=> {
+    
+    const point = document.createElement('div');
+    point.classList.add('marker');    
+    point.style.backgroundColor = color;    
+    point.style.left = `${x}px`;
+    point.style.top = `${y}px`;    
+    document.body.appendChild(point);
+}
+
+
+
 const updateLinePosition = (start, end) => {
- 
 
   
     const origin = [start.x, start.y];
@@ -27,7 +39,7 @@ const updateLinePosition = (start, end) => {
     }
 };
 
-// Maneja el movimiento del ratón para actualizar la línea
+
 const handleMouseMove = (event) => {
     const mouseX = event.clientX;
     const mouseY = event.clientY;
@@ -36,7 +48,7 @@ const handleMouseMove = (event) => {
     updateLinePosition(letterCenter, { x: mouseX, y: mouseY });
 };
 
-// Crea la línea inicial desde el centro de la letra hasta el ratón
+
 const createInitialLine = (event) => {
     const letterCenter = getElementCenter(selectedLetter);
 
@@ -54,8 +66,11 @@ const createInitialLine = (event) => {
     document.getElementById("wheel").appendChild(currentLine);
 };
 
-// Limpiar selección y eliminar la línea cuando se suelta el ratón
+
 const handleMouseUp = () => {
+
+
+
     if (selectedLetter) {
         selectedLetter.classList.remove('selected');
         selectedLetter = null;
@@ -68,7 +83,7 @@ const handleMouseUp = () => {
     document.removeEventListener('mouseup', handleMouseUp);
 };
 
-// Manejar clic en una letra
+
 export const handleLetterClick = (event) => {
     if (selectedLetter) return;
 
@@ -89,18 +104,3 @@ export const handleLetterClick = (event) => {
 };
 
 
-function markPoint(x, y, color = 'red') {
-    // Crear un elemento div para el punto
-    const point = document.createElement('div');
-    point.classList.add('marker');
-
-    // Establecer el color del punto
-    point.style.backgroundColor = color;
-
-    // Establecer la posición del punto
-    point.style.left = `${x}px`;
-    point.style.top = `${y}px`;
-
-    // Añadir el punto al documento
-    document.body.appendChild(point);
-}
