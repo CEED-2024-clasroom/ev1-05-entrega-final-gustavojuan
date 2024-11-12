@@ -75,10 +75,12 @@ export const createLetterDiv = (x, y, i, direction) => {
     // Si es horizonal, cambiamos la columna
     letterDiv.style.gridArea =
       y + 1 + " / " + (x + i + 1) + " / " + (y + 1) + " / " + (x + i + 2);
+    letterDiv.setAttribute('data-position', `${x + i} / ${y}`);  // Guardamos la posición en data-attribute
   } else if (direction === "vertical") {
     // Si es horizonal, cambiamos la fila
     letterDiv.style.gridArea =
       y + i + 1 + " / " + (x + 1) + " / " + (y + i + 2) + " / " + (x + 1);
+    letterDiv.setAttribute('data-position', `${x} / ${y + i}`);  // Guardamos la posición en data-attribute
   }
 
   return letterDiv;

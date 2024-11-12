@@ -1,11 +1,8 @@
-//importacion de assets
 import "./style.css";
 import "./src/lib/fontawesome.js";
 
-//importacion de utiles y funcionalidades
-import { Game } from "./src/lib/Game.js";
-import calculateLetterPositions from "./src/lib/letter_positions.js"; 
-
+import { Game, WordNotFound } from "./src/lib/Game.js";
+import calculateLetterPositions from "./src/lib/letter_positions.js";
 
 import {
   appendCasillas,
@@ -35,7 +32,7 @@ const generateCasillas = (game) => {
   });
 };
 
-const  generarWheelLetters = (game) => {
+const generarWheelLetters = (game) => {
   resetElement("#wheel");
 
   const letters = game.letters.split("");
@@ -49,27 +46,62 @@ const  generarWheelLetters = (game) => {
     letterDiv.textContent = letter;
 
     const pos = positions[index];
-    letterDiv.style.left = pos.left; 
+    letterDiv.style.left = pos.left;
     letterDiv.style.top = pos.top;
 
     appendCasillas("#wheel", letterDiv);
 
-    letterDiv.addEventListener('mousedown', handleLetterClick);
-    
+    letterDiv.addEventListener("mousedown", handleLetterClick);
   });
-}
-
-
-
-
+};
 
 /* TODO: parametrizar new Game*/
 const initializeGame = () => {
-  const game = new Game(1);
+  const game = new Game(2);
+  debugger;
+
   generateCasillas(game);
   generarWheelLetters(game);
+
+  //Todo: refactor palabra
+  marcarPalabra("cebar", game);
 };
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeGame();
 });
+
+const marcarPalabra = (palabra, game) => {
+  try {
+    const wordPosition = game.findWord(palabra);
+
+    const { direction, origin } = wordPosition;
+
+    const [startX, startY] = origin;
+
+    for (let i = 0; i < palabra.length; i++) {
+      let x = startX;
+      let y = startY;
+
+      if (direction === "horizontal") {
+        x += i;
+      } else if (direction === "vertical") {
+        y += i;
+      }
+
+      const letterElement = document.querySelector(
+        `.letter[data-position="${x} / ${y}"]`
+      );
+
+      if (letterElement) {
+        letterElement.textContent = palabra[i];
+      }
+    }
+  } catch (error) {
+    if (error instanceof WordNotFound) {
+      console.log(`La palabra "${palabra}" no se encontró en el juego.`);
+    } else {
+      console.error("Error inesperado:", error);
+    }
+  }
+};
