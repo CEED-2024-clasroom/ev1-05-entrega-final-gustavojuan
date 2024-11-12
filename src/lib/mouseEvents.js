@@ -51,18 +51,13 @@ const handleMouseMove = (event) => {
 
 const createInitialLine = (event) => {
     const letterCenter = getElementCenter(selectedLetter);
-
-
     
     const mouseX = event.clientX;
     const mouseY = event.clientY;
     currentLine = document.createElement('div');
     currentLine.classList.add('line');
 
-
-
     updateLinePosition(letterCenter, { x: mouseX, y: mouseY });
-
     document.getElementById("wheel").appendChild(currentLine);
 };
 
