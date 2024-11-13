@@ -6,15 +6,15 @@ let selectedLetter = null;
 
 
 
-const  markPoint = (x, y, color = 'red')=> {
+// const  markPoint = (x, y, color = 'red')=> {
     
-    const point = document.createElement('div');
-    point.classList.add('marker');    
-    point.style.backgroundColor = color;    
-    point.style.left = `${x}px`;
-    point.style.top = `${y}px`;    
-    document.body.appendChild(point);
-}
+//     const point = document.createElement('div');
+//     point.classList.add('marker');    
+//     point.style.backgroundColor = color;    
+//     point.style.left = `${x}px`;
+//     point.style.top = `${y}px`;    
+//     document.body.appendChild(point);
+// }
 
 
 
@@ -105,24 +105,24 @@ export const handleLetterClick = (event) => {
 
 /* Esta es una funcion segun gpt  mara debugear el punto ya que me daba problemas */
 
-function marcarPunto(x, y) {
-    // Crear un elemento div que representará el punto
-    const punto = document.createElement("div");
+// function marcarPunto(x, y) {
+//     // Crear un elemento div que representará el punto
+//     const punto = document.createElement("div");
 
-    punto.classList.add('punti');
+//     punto.classList.add('punti');
 
-    // Aplicar estilos para que el punto sea visible
-    punto.style.width = "10px";
-    punto.style.height = "10px";
-    punto.style.backgroundColor = "red";
-    punto.style.position = "absolute";
-    punto.style.borderRadius = "50%";
-    punto.style.left = `${x}px`;
-    punto.style.top = `${y}px`;
-    punto.style.zIndex= 99999;
+//     // Aplicar estilos para que el punto sea visible
+//     punto.style.width = "10px";
+//     punto.style.height = "10px";
+//     punto.style.backgroundColor = "red";
+//     punto.style.position = "absolute";
+//     punto.style.borderRadius = "50%";
+//     punto.style.left = `${x}px`;
+//     punto.style.top = `${y}px`;
+//     punto.style.zIndex= 99999;
 
-    // Añadir el punto al cuerpo del documento
-    document.body.appendChild(punto);
-}
+//     // Añadir el punto al cuerpo del documento
+//     document.body.appendChild(punto);
+// }
 
 

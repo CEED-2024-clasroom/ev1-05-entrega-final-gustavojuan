@@ -55,10 +55,59 @@ const generarWheelLetters = (game) => {
   });
 };
 
+
+const getCoords = (iniX, iniY, direction, index) => {
+
+
+  let x = iniX;
+  let y = iniY;
+
+  if (direction == "horizontal") {
+    x += index;
+  } else if (direction == "vertical") {
+    y += index;
+  }
+
+  return [x, y];
+
+};
+
+const rellenarLetra = (x, y, letra) => {
+  const letraElem = document.querySelector(`.letter[data-position="${x} / ${y}"]`);
+  if (letraElem) {
+    letraElem.textContent = letra;
+  }
+};
+
+const marcarPalabra = (palabra, game) => {
+
+
+  try {
+
+    const { direction, origin } = game.findWord(palabra);
+    const [startX, startY] = origin;
+
+    for (let i = 0; i < palabra.length; i++) {
+      const [x, y] = getCoords(startX, startY, direction, i);
+      rellenarLetra(x, y, palabra[i]);
+    }
+
+
+  } catch (error) {
+
+    if (error instanceof WordNotFound) {
+      console.log(`No existe la palabra: "${palabra}"`);
+    } else {
+      console.log("Error:", error);
+    }
+  }
+};
+
+
+
 /* TODO: parametrizar new Game*/
 const initializeGame = () => {
-  const game = new Game(2);
-  debugger;
+  const game = new Game(2);  
 
   generateCasillas(game);
   generarWheelLetters(game);
@@ -71,37 +120,3 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeGame();
 });
 
-const marcarPalabra = (palabra, game) => {
-  try {
-    const wordPosition = game.findWord(palabra);
-
-    const { direction, origin } = wordPosition;
-
-    const [startX, startY] = origin;
-
-    for (let i = 0; i < palabra.length; i++) {
-      let x = startX;
-      let y = startY;
-
-      if (direction === "horizontal") {
-        x += i;
-      } else if (direction === "vertical") {
-        y += i;
-      }
-
-      const letterElement = document.querySelector(
-        `.letter[data-position="${x} / ${y}"]`
-      );
-
-      if (letterElement) {
-        letterElement.textContent = palabra[i];
-      }
-    }
-  } catch (error) {
-    if (error instanceof WordNotFound) {
-      console.log(`La palabra "${palabra}" no se encontró en el juego.`);
-    } else {
-      console.error("Error inesperado:", error);
-    }
-  }
-};
