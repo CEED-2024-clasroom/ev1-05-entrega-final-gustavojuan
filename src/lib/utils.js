@@ -57,17 +57,17 @@ export const resetElement = (element) => {
   }
 };
 
-export const appendCasillas = (gridSelector, casillas) => {
+export const appendCasillas = (gridSelector, letterDiv) => {
   const grid = document.querySelector(gridSelector);
 
   if (!grid) {
     console.warn(`Elemento no encontrado: ${grid}`);
   }
 
-  grid.appendChild(casillas);
+  grid.appendChild(letterDiv);
 };
 
-export const createLetterDiv = (x, y, i, direction) => {
+export const createLetterDiv = (x, y, i, direction, letter) => {
   const letterDiv = document.createElement("div");
   letterDiv.classList.add("letter");
 
@@ -82,6 +82,7 @@ export const createLetterDiv = (x, y, i, direction) => {
       y + i + 1 + " / " + (x + 1) + " / " + (y + i + 2) + " / " + (x + 1);
     letterDiv.setAttribute('data-position', `${x} / ${y + i}`);  // Guardamos la posición en data-attribute
   }
+  letterDiv.textContent = letter;
 
   return letterDiv;
 };
@@ -98,3 +99,11 @@ export const calculosGridSize = (wordPositions) => {
 
   return { maxColumn, maxRow, gridWidth, gridHeight, despX, despY };
 };
+
+
+export const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}

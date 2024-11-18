@@ -12,6 +12,11 @@ import {
 } from "./src/lib/utils.js";
 
 import { handleLetterClick } from "./src/lib/mouseEvents.js";
+import { revealSmall, shuffleWheelLetters } from "./src/lib/userActions.js";
+
+const shuffleButton = document.querySelector('[data-action="shuffle"]');
+const revealSmallButton = document.querySelector('[data-action="revealSmall"]');
+
 
 const generateCasillas = (game) => {
   //Limpiamos Grid
@@ -55,7 +60,6 @@ const generarWheelLetters = (game) => {
   });
 };
 
-
 const getCoords = (iniX, iniY, direction, index) => {
 
 
@@ -81,7 +85,6 @@ const rellenarLetra = (x, y, letra) => {
 
 const marcarPalabra = (palabra, game) => {
 
-
   try {
 
     const { direction, origin } = game.findWord(palabra);
@@ -104,19 +107,28 @@ const marcarPalabra = (palabra, game) => {
 };
 
 
-
+let game
 /* TODO: parametrizar new Game*/
 const initializeGame = () => {
-  const game = new Game(2);  
+  game = new Game(1);  
+  
 
   generateCasillas(game);
   generarWheelLetters(game);
 
   //Todo: refactor palabra
-  marcarPalabra("cebar", game);
+  //marcarPalabra("cebar", game);
 };
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeGame();
 });
 
+
+
+
+/* USER ACTION */
+shuffleButton.addEventListener('click', shuffleWheelLetters);
+revealSmallButton.addEventListener('click', () => {
+  revealSmall(game); 
+});

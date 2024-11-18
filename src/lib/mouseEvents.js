@@ -71,7 +71,6 @@ const createInitialLine = (event) => {
 const handleMouseUp = () => {
 
 
-
     if (selectedLetter) {
         selectedLetter.classList.remove('selected');
         selectedLetter = null;
