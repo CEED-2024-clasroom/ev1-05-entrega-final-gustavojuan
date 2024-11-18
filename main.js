@@ -20,6 +20,7 @@ const revealBigButton = document.querySelector('[data-action="revealBig"]'); // 
 
 
 
+
 const generateCasillas = (game) => {
   //Limpiamos Grid
   resetElement("#grid");
@@ -112,7 +113,9 @@ const marcarPalabra = (palabra, game) => {
 let game
 /* TODO: parametrizar new Game*/
 const initializeGame = () => {
-  game = new Game(2);  
+  game = new Game(4);  
+
+  console.log(game)
   
 
   generateCasillas(game);

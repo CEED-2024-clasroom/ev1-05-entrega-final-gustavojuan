@@ -31,10 +31,18 @@ export const  shuffleWheelLetters = ()  =>{
 const getAllLettersPositions = (game) => {
     const allLettersPositions = [];
   
+
+  
     for (let x = 0; x < game.board.length; x++) {
+      // Verificar que cada fila también sea una matriz
+      if (!Array.isArray(game.board[x])) {
+        console.error(`La fila ${x} no está correctamente definida.`);
+        continue; // O podemos retornar aquí dependiendo de lo que queramos hacer
+      }
+  
       for (let y = 0; y < game.board[x].length; y++) {
         const letter = game.letterAt(x, y);
-        
+  
         if (letter && letter !== '') {
           allLettersPositions.push([x, y, letter]);
         }
