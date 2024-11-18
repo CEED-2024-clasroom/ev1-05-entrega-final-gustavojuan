@@ -12,10 +12,12 @@ import {
 } from "./src/lib/utils.js";
 
 import { handleLetterClick } from "./src/lib/mouseEvents.js";
-import { revealSmall, shuffleWheelLetters } from "./src/lib/userActions.js";
+import { revealBig, revealSmall, shuffleWheelLetters } from "./src/lib/userActions.js";
 
 const shuffleButton = document.querySelector('[data-action="shuffle"]');
 const revealSmallButton = document.querySelector('[data-action="revealSmall"]');
+const revealBigButton = document.querySelector('[data-action="revealBig"]'); // Cambia el selector según corresponda
+
 
 
 const generateCasillas = (game) => {
@@ -110,14 +112,14 @@ const marcarPalabra = (palabra, game) => {
 let game
 /* TODO: parametrizar new Game*/
 const initializeGame = () => {
-  game = new Game(1);  
+  game = new Game(2);  
   
 
   generateCasillas(game);
   generarWheelLetters(game);
 
   //Todo: refactor palabra
-  //marcarPalabra("cebar", game);
+  marcarPalabra("cebar", game);
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -131,4 +133,8 @@ document.addEventListener("DOMContentLoaded", () => {
 shuffleButton.addEventListener('click', shuffleWheelLetters);
 revealSmallButton.addEventListener('click', () => {
   revealSmall(game); 
+});
+
+revealBigButton.addEventListener('click', () => {
+  revealBig(game); 
 });
