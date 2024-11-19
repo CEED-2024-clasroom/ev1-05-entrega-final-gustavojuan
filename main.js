@@ -8,11 +8,13 @@ import {
   appendCasillas,
   calculosGridSize,
   createLetterDiv,
+  rellenarLetra,
   resetElement,
-} from "./src/lib/utils.js";
+} from "./src/utils.js";
 
-import { handleLetterClick } from "./src/lib/mouseEvents.js";
-import { revealBig, revealSmall, shuffleWheelLetters } from "./src/lib/userActions.js";
+import { handleLetterClick } from "./src/mouseEvents.js";
+import { revealBig, revealSmall, shuffleWheelLetters } from "./src/userActions.js";
+
 
 const shuffleButton = document.querySelector('[data-action="shuffle"]');
 const revealSmallButton = document.querySelector('[data-action="revealSmall"]');
@@ -79,12 +81,6 @@ const getCoords = (iniX, iniY, direction, index) => {
 
 };
 
-const rellenarLetra = (x, y, letra) => {
-  const letraElem = document.querySelector(`.letter[data-position="${x} / ${y}"]`);
-  if (letraElem) {
-    letraElem.textContent = letra;
-  }
-};
 
 const marcarPalabra = (palabra, game) => {
 
@@ -113,7 +109,7 @@ const marcarPalabra = (palabra, game) => {
 let game
 /* TODO: parametrizar new Game*/
 const initializeGame = () => {
-  game = new Game(4);  
+  game = new Game(2);  
 
   console.log(game)
   
