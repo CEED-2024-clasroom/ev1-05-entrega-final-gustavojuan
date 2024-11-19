@@ -1,5 +1,6 @@
 import center from "./lib/center.js";
 
+
 const calculateMaxColumn = (wordPositions) => {
   let maxColumn = 0;
 
@@ -121,3 +122,20 @@ export const rellenarLetra = (x, y, letra) => {
     letraElem.textContent = letra;
   });
 };
+
+export const getCoords = (iniX, iniY, direction, index) => {
+
+
+  let x = iniX;
+  let y = iniY;
+
+  if (direction == "horizontal") {
+    x += index;
+  } else if (direction == "vertical") {
+    y += index;
+  }
+
+  return [x, y];
+
+};
+
