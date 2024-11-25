@@ -70,7 +70,7 @@ const generarWheelLetters = (game) => {
 let game
 /* TODO: parametrizar new Game*/
 const initializeGame = () => {
-  game = new Game(2);  
+  game = new Game(1);  
   setGame(game) 
   generateCasillas(game);
   generarWheelLetters(game); 
