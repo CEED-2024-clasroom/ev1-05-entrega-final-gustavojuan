@@ -1,4 +1,44 @@
+import { getGame } from "./game";
 import { rellenarLetra } from "./utils";
+// Devuelve la letra en la posición (x, y) del tablero
+export const getLetterAt = (x, y) => {
+  const game = getGame();  // Obtener el objeto de juego
+  
+  // Asegurarnos de que las coordenadas (x, y) están dentro del tablero
+  if (x >= 0 && x < game.board.length) {
+    const row = game.board[x];
+    if (Array.isArray(row) && y >= 0 && y < row.length) {
+      return game.letterAt(x, y);  // Asumiendo que game.letterAt(x, y) devuelve la letra
+    }
+  }
+  
+  
+  return null;  // Si no se encuentra la letra, se devuelve null
+};
+
+
+
+export  const getLetterCoordinates = (letterDiv) => {
+  // Asegúrate de que el div tiene el atributo 'data-position'
+  const position = letterDiv.getAttribute('data-position');
+
+  if (!position) {
+    console.error("El div no tiene el atributo 'data-position'.");
+    return null;  // Si no tiene el atributo, devolvemos null
+  }
+
+  // Asumimos que la posición está en formato "x / y"
+  const [x, y] = position.split('/').map(coord => parseInt(coord.trim()));
+
+  if (isNaN(x) || isNaN(y)) {
+    console.error("Las coordenadas extraídas no son válidas.");
+    return null;  // Si las coordenadas no son válidas, devolvemos null
+  }
+
+  return { x, y };
+};
+
+
 
 export const  shuffleWheelLetters = ()  =>{
   

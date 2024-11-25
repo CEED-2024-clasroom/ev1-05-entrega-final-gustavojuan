@@ -14,12 +14,13 @@ import {
 import { handleLetterClick } from "./src/mouseEvents.js";
 import { revealBig, revealSmall, shuffleWheelLetters } from "./src/userActions.js";
 import { setGame } from "./src/game.js";
+import { help } from "./src/help.js";
 
 const shuffleButton = document.querySelector('[data-action="shuffle"]');
 const revealSmallButton = document.querySelector('[data-action="revealSmall"]');
 const revealBigButton = document.querySelector('[data-action="revealBig"]'); // Cambia el selector según corresponda
 
-
+const helpButton = document.querySelector('[data-action="help"]'); // Cambia el selector según corresponda
 
 
 const generateCasillas = (game) => {
@@ -119,7 +120,7 @@ export const marcarPalabra = (palabra, game) => {
 let game
 /* TODO: parametrizar new Game*/
 const initializeGame = () => {
-  game = new Game(2);  
+  game = new Game(1);  
   setGame(game)
 
   
@@ -147,4 +148,11 @@ revealSmallButton.addEventListener('click', () => {
 
 revealBigButton.addEventListener('click', () => {
   revealBig(game); 
+});
+
+// Vincular el evento al botón de ayuda
+
+helpButton.addEventListener('click', (event) => {
+  event.stopPropagation(); // Detener la propagación del evento
+  help(); // Activar el modo de ayuda
 });

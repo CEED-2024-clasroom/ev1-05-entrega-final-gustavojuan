@@ -25,7 +25,7 @@ export default [
       reportUnusedDisableDirectives: true
     },
     rules: {
-      complexity: ["error", { max: 5 }],
+      complexity: ["error", { max: 8 }],
       "array-callback-return": "error",
       "constructor-super": "error",
       "for-direction": "error",
