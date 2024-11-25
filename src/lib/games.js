@@ -17,7 +17,7 @@ const GAME_SIMPLE_1 = {
   
   // 2024-10-11-146
   const GAME_1 = {
-    letters: 'abcde',
+    letters: 'abcre',
     words: new Map([
       ['acre',  { origin: [0, 0], direction: 'vertical'} ],
       ['cebar', { origin: [2, 0], direction: 'vertical' }],

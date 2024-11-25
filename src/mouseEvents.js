@@ -1,21 +1,19 @@
 import { getElementCenter, lengthAndAngle } from "./lib/line_position.js";
 import { getGame } from "./game.js";
-import { marcarPalabra } from "../main.js";
+import { marcarPalabra } from "./utils.js";
 
 let currentLine = null;
 let selectedLetter = null;
 let connectedLetters = [];
 let lines = [];
 
-//Extrae las letras de los capas seleccionadas
 const getFormedWord = () => {
   return connectedLetters.map((letter) => letter.textContent).join("");
 };
 
-// Función para eliminar todas las líneas creadas
 const removeAllLines = () => {
   lines.forEach((line) => line.remove());
-  lines = []; 
+  lines = [];
 };
 
 // Actualiza la posición de la línea
@@ -37,37 +35,33 @@ const updateLinePosition = (start, end) => {
   }
 };
 
-
 const createLine = (event) => {
-  if (!selectedLetter) return; 
+  if (!selectedLetter) return;
 
   const letterCenter = getElementCenter(selectedLetter);
   const mouseX = event.clientX;
   const mouseY = event.clientY;
 
-  
   currentLine = document.createElement("div");
   currentLine.classList.add("line");
   updateLinePosition(letterCenter, { x: mouseX, y: mouseY });
 
-  
   document.body.appendChild(currentLine);
-  lines.push(currentLine); 
+  lines.push(currentLine);
   connectedLetters.push(selectedLetter);
-  
-  selectedLetter.classList.add("selected"); 
+
+  selectedLetter.classList.add("selected");
 };
 
-
 const isValidLetterUnderCursor = (letterUnderCursor) => {
-    return (
-      letterUnderCursor &&
-      letterUnderCursor !== selectedLetter &&
-      letterUnderCursor.classList.contains("wheel-letter") &&
-      !letterUnderCursor.classList.contains("selected") &&
-      !connectedLetters.includes(letterUnderCursor)
-    );
-  };
+  return (
+    letterUnderCursor &&
+    letterUnderCursor !== selectedLetter &&
+    letterUnderCursor.classList.contains("wheel-letter") &&
+    !letterUnderCursor.classList.contains("selected") &&
+    !connectedLetters.includes(letterUnderCursor)
+  );
+};
 
 const handleMouseMove = (event) => {
   const mouseX = event.clientX;
@@ -75,22 +69,16 @@ const handleMouseMove = (event) => {
 
   const letterCenter = getElementCenter(selectedLetter);
 
-  
   updateLinePosition(letterCenter, { x: mouseX, y: mouseY });
 
   const letterUnderCursor = document.elementFromPoint(mouseX, mouseY);
 
-  
-  if (
-    isValidLetterUnderCursor(letterUnderCursor)
-  ) {
-  
+  if (isValidLetterUnderCursor(letterUnderCursor)) {
     letterUnderCursor.classList.add("selected");
-    selectedLetter = letterUnderCursor;     
+    selectedLetter = letterUnderCursor;
     createLine(event);
   }
 };
-
 
 const handleMouseUp = () => {
   connectedLetters.forEach((letter) => letter.classList.remove("selected"));
@@ -105,19 +93,18 @@ const handleMouseUp = () => {
     currentLine = null;
   }
 
-  const game = getGame(); 
+  const game = getGame();
   marcarPalabra(getFormedWord(), game);
 
-  connectedLetters = []; 
+  connectedLetters = [];
   removeAllLines();
 
   document.removeEventListener("mousemove", handleMouseMove);
   document.removeEventListener("mouseup", handleMouseUp);
 };
 
-
 export const handleLetterClick = (event) => {
-  if (selectedLetter) return; 
+  if (selectedLetter) return;
 
   selectedLetter = event.currentTarget;
   selectedLetter.classList.add("selected");

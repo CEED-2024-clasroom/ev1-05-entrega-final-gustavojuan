@@ -1,5 +1,48 @@
 import center from "./lib/center.js";
+import { WordNotFound } from "./lib/Game.js";
 
+export const getCoords = (iniX, iniY, direction, index) => {
+  let x = iniX;
+  let y = iniY;
+
+  if (direction == "horizontal") {
+    x += index;
+  } else if (direction == "vertical") {
+    y += index;
+  }
+
+  return [x, y];
+};
+
+export const rellenarLetra = (x, y, letra) => {
+  const letraElems = document.querySelectorAll(
+    `.letter[data-position="${x} / ${y}"]`
+  );
+
+  if (letraElems.length > 0) {
+    letraElems.forEach((letraElem) => {
+      letraElem.textContent = letra;
+    });
+  }
+};
+
+export const marcarPalabra = (palabra, game) => {
+  try {
+    const { direction, origin } = game.findWord(palabra);
+    const [startX, startY] = origin;
+
+    for (let i = 0; i < palabra.length; i++) {
+      const [x, y] = getCoords(startX, startY, direction, i);
+      rellenarLetra(x, y, palabra[i]);
+    }
+  } catch (error) {
+    if (error instanceof WordNotFound) {
+      console.log(`No existe la palabra: "${palabra}"`);
+    } else {
+      console.log("Error:", error);
+    }
+  }
+};
 
 const calculateMaxColumn = (wordPositions) => {
   let maxColumn = 0;
@@ -24,8 +67,7 @@ const calculateMaxColumn = (wordPositions) => {
 };
 
 const calculateMaxRow = (wordPositions) => {
-  let maxRow = 0; 
-
+  let maxRow = 0;
 
   for (let i = 0; i < wordPositions.length; i++) {
     const pos = wordPositions[i];
@@ -36,7 +78,6 @@ const calculateMaxRow = (wordPositions) => {
         maxRow = finalRow;
       }
     } else {
-     
       const originRow = pos.origin[1];
       if (originRow > maxRow) {
         maxRow = originRow;
@@ -44,7 +85,7 @@ const calculateMaxRow = (wordPositions) => {
     }
   }
 
-  return maxRow; 
+  return maxRow;
 };
 
 export const resetElement = (element) => {
@@ -75,12 +116,12 @@ export const createLetterDiv = (x, y, i, direction, letter) => {
     // Si es horizonal, cambiamos la columna
     letterDiv.style.gridArea =
       y + 1 + " / " + (x + i + 1) + " / " + (y + 1) + " / " + (x + i + 2);
-    letterDiv.setAttribute('data-position', `${x + i} / ${y}`);  // Guardamos la posición en data-attribute
+    letterDiv.setAttribute("data-position", `${x + i} / ${y}`); // Guardamos la posición en data-attribute
   } else if (direction === "vertical") {
     // Si es horizonal, cambiamos la fila
     letterDiv.style.gridArea =
       y + i + 1 + " / " + (x + 1) + " / " + (y + i + 2) + " / " + (x + 1);
-    letterDiv.setAttribute('data-position', `${x} / ${y + i}`);  // Guardamos la posición en data-attribute
+    letterDiv.setAttribute("data-position", `${x} / ${y + i}`); // Guardamos la posición en data-attribute
   }
   letterDiv.textContent = letter;
 
@@ -88,54 +129,21 @@ export const createLetterDiv = (x, y, i, direction, letter) => {
 };
 
 export const calculosGridSize = (wordPositions) => {
-
-
-    
   const maxColumn = calculateMaxColumn(wordPositions);
   const maxRow = calculateMaxRow(wordPositions);
 
   //Ajustamos la position del array
   const gridWidth = maxColumn + 1;
   const gridHeight = maxRow + 1;
-  
+
   const [despX, despY] = center(maxColumn, maxRow, gridWidth, gridHeight);
 
   return { maxColumn, maxRow, gridWidth, gridHeight, despX, despY };
 };
-
 
 export const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
-}
-
-
-
-export const rellenarLetra = (x, y, letra) => {
-  
-  const letraElems  = document.querySelectorAll(`.letter[data-position="${x} / ${y}"]`);
-
-  
-  letraElems.forEach(letraElem => {
-    letraElem.textContent = letra;
-  });
 };
-
-export const getCoords = (iniX, iniY, direction, index) => {
-
-
-  let x = iniX;
-  let y = iniY;
-
-  if (direction == "horizontal") {
-    x += index;
-  } else if (direction == "vertical") {
-    y += index;
-  }
-
-  return [x, y];
-
-};
-
