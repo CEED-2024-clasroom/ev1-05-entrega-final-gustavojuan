@@ -74,7 +74,7 @@ const generarWheelLetters = (game) => {
 
 
 const initializeGame = () => {
-  const game = new Game(3); 
+  const game = new Game(1); 
   setGame(game);
   
   
