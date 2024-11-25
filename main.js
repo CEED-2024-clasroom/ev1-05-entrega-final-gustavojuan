@@ -1,7 +1,7 @@
 import "./style.css";
 import "./src/lib/fontawesome.js";
 
-import { Game, WordNotFound } from "./src/lib/Game.js";
+import { Game } from "./src/lib/Game.js";
 import calculateLetterPositions from "./src/lib/letter_positions.js";
 
 import {
@@ -65,71 +65,15 @@ const generarWheelLetters = (game) => {
   });
 };
 
-const getCoords = (iniX, iniY, direction, index) => {
-
-
-  let x = iniX;
-  let y = iniY;
-
-  if (direction == "horizontal") {
-    x += index;
-  } else if (direction == "vertical") {
-    y += index;
-  }
-
-  return [x, y];
-
-};
-
-const rellenarLetra = (x, y, letra) => {
-  const letraElems = document.querySelectorAll(`.letter[data-position="${x} / ${y}"]`);
-  
-  
-  if (letraElems.length > 0) {
-    
-    letraElems.forEach(letraElem => {
-      letraElem.textContent = letra;
-    });
-  }
-};
-
-export const marcarPalabra = (palabra, game) => {
-
-  try {
-
-    const { direction, origin } = game.findWord(palabra);
-    const [startX, startY] = origin;
-
-    for (let i = 0; i < palabra.length; i++) {
-      const [x, y] = getCoords(startX, startY, direction, i);
-      rellenarLetra(x, y, palabra[i]);
-    }
-
-
-  } catch (error) {
-
-    if (error instanceof WordNotFound) {
-      console.log(`No existe la palabra: "${palabra}"`);
-    } else {
-      console.log("Error:", error);
-    }
-  }
-};
 
 
 let game
 /* TODO: parametrizar new Game*/
 const initializeGame = () => {
-  game = new Game(1);  
-  setGame(game)
-
-  
-  
-
+  game = new Game(2);  
+  setGame(game) 
   generateCasillas(game);
-  generarWheelLetters(game);
-
-  //Todo: refactor palabra
+  generarWheelLetters(game); 
 
 };
 
@@ -140,19 +84,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-/* USER ACTION */
+/* USER ACTIONS */
 shuffleButton.addEventListener('click', shuffleWheelLetters);
 revealSmallButton.addEventListener('click', () => {
   revealSmall(game); 
 });
-
 revealBigButton.addEventListener('click', () => {
   revealBig(game); 
 });
 
-// Vincular el evento al botón de ayuda
-
 helpButton.addEventListener('click', (event) => {
-  event.stopPropagation(); // Detener la propagación del evento
-  help(); // Activar el modo de ayuda
+  event.stopPropagation();
+  help();
 });

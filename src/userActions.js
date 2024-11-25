@@ -1,21 +1,12 @@
 import { getGame } from "./game";
 import { rellenarLetra } from "./utils";
-// Devuelve la letra en la posición (x, y) del tablero
+
+
+
 export const getLetterAt = (x, y) => {
   const game = getGame();  // Obtener el objeto de juego
-  
-  // Asegurarnos de que las coordenadas (x, y) están dentro del tablero
-  if (x >= 0 && x < game.board.length) {
-    const row = game.board[x];
-    if (Array.isArray(row) && y >= 0 && y < row.length) {
-      return game.letterAt(x, y);  // Asumiendo que game.letterAt(x, y) devuelve la letra
-    }
-  }
-  
-  
-  return null;  // Si no se encuentra la letra, se devuelve null
+  return game.letterAt(x, y);  // Asumimos que game.letterAt(x, y) devuelve la letra directamente
 };
-
 
 
 export  const getLetterCoordinates = (letterDiv) => {
